@@ -4,31 +4,48 @@
     font-size: large;
 }
 
+body{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.gallery{
+    margin:0;
+    padding-left: 30px;
+    width: 100vw;
+   padding-top: 100px;
+   display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    gap: 10;
+}
+
 .search-form{
-    /* background-color: aqua; */
+    width: 100vw;
+    position: absolute;
+    background-color: aqua;
     padding-top: 15;
     padding-bottom: 15;
     display: flex;
     justify-content: center;
-    margin: -8;
     margin-bottom: 18;
 }
 
 .submit{
-    /* opacity: 0; */
+    background-color: cyan;
+    font-style: normal;
 }
 
 input{
 height: 26;
 width: 210;
 font-size: medium;
+border: none;
+font-style:normal;
 }
 
-input::after{
-    content:  url(../symbol-defs.svg#icon-search);
-    width: 50px;
-    height: 50px;
-    display: inline-block;
+input:focus{
+    outline: 0;
 }
 
 .sbm-btn{
@@ -40,21 +57,7 @@ input::after{
     color: white;
     background-color: blue;
     height: 40px;
-    width: 180;
+    width: 180px;
+    font-style: normal;
 }
 
-
-.icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  stroke-width: 0;
-  stroke: currentColor;
-  fill: currentColor;
-
-}
-.icon-search{
-    width: 15;
-    height: 15px;
-fill:currentColor
-}
