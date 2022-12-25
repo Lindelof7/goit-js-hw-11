@@ -12,17 +12,17 @@ body{
 
 .gallery{
     margin:0;
-    padding-left: 30px;
+    padding-left: 7px;
     width: 100vw;
-   padding-top: 100px;
-   display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    padding-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10;
 }
 
 .search-form{
     width: 100vw;
-    position: absolute;
+    position: fixed;
     background-color: aqua;
     padding-top: 15;
     padding-bottom: 15;
@@ -61,3 +61,11 @@ input:focus{
     font-style: normal;
 }
 
+.photo-card{
+
+}
+
+.info{
+    display: flex;
+    gap: 8px;
+}

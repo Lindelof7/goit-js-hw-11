@@ -35,7 +35,7 @@ async function onSearch(e) {
 async function createPhoto(photos) {
     const createdPhotos = photos.map((photo) => {
         const mappedPhotos = `<div class="photo-card">
-    <img src="${photo.webformatURL}" width = "380px" alt="${photo.tags}" loading="lazy" />
+    <img src="${photo.webformatURL}" width = "400px"  alt="${photo.tags}" loading="lazy" />
     <div class="info">
         <p class="info-item">   
             <b>Likes ${photo.likes}</b>    
