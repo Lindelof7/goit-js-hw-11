@@ -1,6 +1,7 @@
 *{
-    font-family:Arial, Helvetica, sans-serif ;
+    font-family:'Times New Roman', Times, serif;
     font-style:oblique;
+    font-size: large;
 }
 
 .search-form{
@@ -20,6 +21,7 @@
 input{
 height: 26;
 width: 210;
+font-size: medium;
 }
 
 input::after{
@@ -49,4 +51,10 @@ input::after{
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;
+
+}
+.icon-search{
+    width: 15;
+    height: 15px;
+fill:currentColor
 }
