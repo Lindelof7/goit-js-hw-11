@@ -1,7 +1,6 @@
 import './css/styles.css';
-import axios from 'axios';
 import Notiflix from 'notiflix';
-import simpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchPhotos } from './fetch-photos.js';
 
@@ -10,37 +9,80 @@ const submitBtnEL = document.querySelector('.submit');
 const loadMoreBtnEl = document.querySelector('.load-more');
 const galleryEl = document.querySelector('.gallery');
 
-inputEl.addEventListener('input', async (event) => {
-    event.preventDefault();
-    const searchQuery = event.target.value.trim();
-    if (searchQuery !== '') {
+let page = Number(1);
+let searchQuery = "";
+
+if (galleryEl.innerHTML === "") {
+    loadMoreBtnEl.disabled = true;
+    loadMoreBtnEl.classList.add("visually-hidden");
+}
+
+submitBtnEL.addEventListener('click', onSubmitClick);
+loadMoreBtnEl.addEventListener('click', onLoadMore)
+
+function onSubmitClick(e) {
+    e.preventDefault();
+    onSearch(e);
+}
+
+async function onLoadMore(searchQuery) {
+    searchQuery = inputEl.value.trim();
+    page += 1;
+    const result = await fetchPhotos(searchQuery, page)
+    let photos = await addPhotos(result.hits)
+    galleryEl.insertAdjacentHTML("beforeend", photos)
+    console.log(`Page: ${page}`)
+}
+
+async function onSearch(e) {
+    e.preventDefault();
+    searchQuery = inputEl.value.trim();
+    if (searchQuery !== "") {
         try {
-            const result = await fetchPhotos(searchQuery);
-            spawnPhotos(result.hits);
+            page = 1;
+            const result = await fetchPhotos(searchQuery, page)
+            const photos = await addPhotos(result.hits)
+            galleryEl.innerHTML = photos;
+            loadMoreBtnEl.disabled = false;
+            loadMoreBtnEl.classList.remove("visually-hidden")
+            const simplelightbox = new SimpleLightbox('.photo-card a', {
+                captiondDelay: 250,
+                captionsData: 'alt'
+            })
+            console.log(`Page: ${page}`)
+            if (result.hits.length === 0) {
+                loadMoreBtnEl.disabled = true;
+                loadMoreBtnEl.classList.add("visually-hidden")
+                Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
+            } else Notiflix.Notify.success(`Hooray! We found ${result.totalHits} images.`)
         } catch (error) {
-            console.error(error.message);
+            console.log(error.message)
         }
     }
-});
+}
 
-function spawnPhotos(photos) {
-    galleryEl.innerHTML = photos.map(photo => {
-            return `<div class="photo-card">
-    <img src="${photo.webformatURL}" alt="${photo.tags}" loading="lazy" />
+
+function addPhotos(photos) {
+    return mappedPhotos = photos.map(photo => {
+        return `<div class="photo-card">
+    <a class="gallery__item" href ="${photo.largeImageURL}" >
+    <img src="${photo.webformatURL}" class = "gallery__image" alt="${photo.tags}" loading="lazy" />
+    </a>
     <div class="info">
         <p class="info-item">
-            <b>Likes ${photo.likes}</b>
+            <b>Likes: ${photo.likes}</b>
         </p>
         <p class="info-item">
-            <b>Views ${photo.views}</b>
+            <b>Views: ${photo.views}</b>
         </p>
         <p class="info-item">
-            <b>Comments ${photo.comments}</b>
+            <b>Comments: ${photo.comments}</b>
         </p>
         <p class="info-item">
-            <b>Downloads ${photo.downloads}</b>
+            <b>Downloads: ${photo.downloads}</b>
         </p>
     </div>
 </div>`;
     }).join('');
+
 }
