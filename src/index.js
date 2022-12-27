@@ -31,6 +31,10 @@ async function onLoadMore(searchQuery) {
     const result = await fetchPhotos(searchQuery, page)
     let photos = await addPhotos(result.hits)
     galleryEl.insertAdjacentHTML("beforeend", photos)
+    const simplelightbox = new SimpleLightbox('.photo-card a', {
+        captiondDelay: 250,
+        captionsData: 'alt'
+    })
     console.log(`Page: ${page}`)
 }
 
