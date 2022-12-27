@@ -55,6 +55,10 @@ async function onSearch(e) {
                 loadMoreBtnEl.classList.add("visually-hidden")
                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
             } else Notiflix.Notify.success(`Hooray! We found ${result.totalHits} images.`)
+            if (result.hits.length < 20) {
+                loadMoreBtnEl.disabled = true;
+                loadMoreBtnEl.classList.add("visually-hidden")
+            }
         } catch (error) {
             console.log(error.message)
         }
