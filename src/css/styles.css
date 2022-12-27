@@ -1,12 +1,13 @@
 * {
-    font-family: 'Times New Roman', Times, serif;
-    font-style: oblique;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, serif;
+    font-weight: normal;
+    font-style: normal;
     margin: 0;
     padding: 0;
 }
 
-a{
-    
+::-webkit-input-placeholder {
+  text-align: center;
 }
 
 body {
@@ -28,23 +29,38 @@ body {
 .search-form {
     width: 100%;
     position: sticky;
+    top: 0;
     z-index: 1;
-    background-color: aqua;
+    background-color: rgb(87, 87, 100);
     padding: 15px 0;
     display: flex;
     justify-content: center;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .submit {
-    background-color: cyan;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: rgb(255, 255, 255);
     font-style: normal;
+    border: none;
+    border-left: 2px solid  grey;
+    border-radius: 5;
+    margin-left: 2;
+}
+
+.submit:hover{
+    background-color: rgb(136, 135, 135);
+    cursor: pointer;
 }
 
 input {
+    border-radius: 5;
     height: 26px;
     width: 210px;
     font-size: medium;
     border: none;
+    padding-left: 6px;
 }
 
 input:focus {
@@ -53,18 +69,18 @@ input:focus {
 
 .load-more {
     color: white;
-    background-color: blue;
+    background-color: rgb(56, 56, 112);
     height: 40px;
     width: 180px;
     font-style: normal;
-    
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .photo-card {
-    border-style: groove;
     display: flex;
     flex-direction: column;
-    box-shadow: 1px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .photo-card img {

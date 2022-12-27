@@ -37,6 +37,14 @@ async function onLoadMore(searchQuery) {
     })
     simplelightbox.refresh();
     console.log(`Page: ${page}`)
+    const { height: cardHeight } = galleryEl
+        .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+    });
+
 }
 
 async function onSearch(e) {
@@ -93,5 +101,4 @@ function addPhotos(photos) {
     </div>
 </div>`;
     }).join('');
-
 }
