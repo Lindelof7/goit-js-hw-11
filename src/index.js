@@ -35,6 +35,7 @@ async function onLoadMore(searchQuery) {
         captiondDelay: 250,
         captionsData: 'alt'
     })
+    simplelightbox.refresh();
     console.log(`Page: ${page}`)
 }
 
