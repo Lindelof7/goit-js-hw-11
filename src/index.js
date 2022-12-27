@@ -67,7 +67,7 @@ async function onSearch(e) {
 
 
 function addPhotos(photos) {
-    return mappedPhotos = photos.map(photo => {
+    return photos.map(photo => {
         return `<div class="photo-card">
     <a class="gallery__item" href ="${photo.largeImageURL}" >
     <img src="${photo.webformatURL}" class = "gallery__image" alt="${photo.tags}" loading="lazy" />
