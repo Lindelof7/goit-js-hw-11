@@ -99,6 +99,7 @@ input:focus {
 
 .info-item{
     display: flex;
+    flex-direction: column;
 }
 
 .gallery__item{
