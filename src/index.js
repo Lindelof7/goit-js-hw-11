@@ -3,6 +3,7 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchPhotos } from './fetch-photos.js';
+import axios from 'axios';
 
 const inputEl = document.querySelector('input[name = "searchQuery"]');
 const submitBtnEL = document.querySelector('.submit');
@@ -28,23 +29,31 @@ function onSubmitClick(e) {
 async function onLoadMore(searchQuery) {
     searchQuery = inputEl.value.trim();
     page += 1;
-    const result = await fetchPhotos(searchQuery, page)
-    let photos = await addPhotos(result.hits)
-    galleryEl.insertAdjacentHTML("beforeend", photos)
+    try {
+        const result = await fetchPhotos(searchQuery, page)
+        let photos = await addPhotos(result.data.hits)
+        galleryEl.insertAdjacentHTML("beforeend", photos)
+    }
+    catch (error) {
+        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+        disableLoadMoreBtn();
+        console.log(error.message)
+    }
+
     const simplelightbox = new SimpleLightbox('.photo-card a', {
         captiondDelay: 250,
         captionsData: 'alt'
     })
     simplelightbox.refresh();
     console.log(`Page: ${page}`)
+
+
     const { height: cardHeight } = galleryEl
         .firstElementChild.getBoundingClientRect();
-
     window.scrollBy({
         top: cardHeight * 2,
         behavior: "smooth",
     });
-
 }
 
 async function onSearch(e) {
@@ -54,23 +63,25 @@ async function onSearch(e) {
         try {
             page = 1;
             const result = await fetchPhotos(searchQuery, page)
-            const photos = await addPhotos(result.hits)
+            const photos = await addPhotos(result.data.hits)
             galleryEl.innerHTML = photos;
-            loadMoreBtnEl.disabled = false;
-            loadMoreBtnEl.classList.remove("visually-hidden")
+            disableLoadMoreBtn();
             const simplelightbox = new SimpleLightbox('.photo-card a', {
                 captiondDelay: 250,
                 captionsData: 'alt'
             })
+            console.log(result.data.hits.length)
             console.log(`Page: ${page}`)
-            if (result.hits.length === 0) {
-                loadMoreBtnEl.disabled = true;
-                loadMoreBtnEl.classList.add("visually-hidden")
+            if (result.data.hits.length === 0) {
+                disableLoadMoreBtn();
                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-            } else Notiflix.Notify.success(`Hooray! We found ${result.totalHits} images.`)
-            if (result.hits.length < 20) {
+            } else Notiflix.Notify.success(`Hooray! We found ${result.data.totalHits} images.`)
+            if (result.data.hits.length < 40) {
                 loadMoreBtnEl.disabled = true;
                 loadMoreBtnEl.classList.add("visually-hidden")
+            } else {
+                loadMoreBtnEl.disabled = false;
+                loadMoreBtnEl.classList.remove("visually-hidden")
             }
         } catch (error) {
             console.log(error.message)
@@ -101,4 +112,9 @@ function addPhotos(photos) {
     </div>
 </div>`;
     }).join('');
+}
+
+function disableLoadMoreBtn() {
+    loadMoreBtnEl.disabled = true;
+    loadMoreBtnEl.classList.add("visually-hidden")
 }

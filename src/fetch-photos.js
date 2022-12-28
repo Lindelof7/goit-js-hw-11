@@ -1,6 +1,8 @@
+import axios from 'axios';
+
 export async function fetchPhotos(searchQuery, page) {
-    const response = await fetch(`https://pixabay.com/api/?key=32358654-06404774fd2fdef00d453a3c4&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
-    return response.json();
+    const response = await axios.get(`https://pixabay.com/api/?key=32358654-06404774fd2fdef00d453a3c4&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
+    return response;
 
 }
 
