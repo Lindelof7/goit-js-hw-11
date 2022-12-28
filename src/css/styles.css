@@ -97,9 +97,9 @@ input:focus {
     padding-left: 10;
 }
 
-.info-item{
+.info-item b{
     display: flex;
-    flex-direction: column;
+    flex-direction:column;
 }
 
 .gallery__item{
