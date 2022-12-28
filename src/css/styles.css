@@ -101,9 +101,10 @@ input:focus {
     padding-left: 10;
 }
 
-.info-item b{
+.info-item > b{
     display: flex;
     flex-direction:column;
+    text-align: center;
 }
 
 .gallery__item{
