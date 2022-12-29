@@ -10,7 +10,7 @@ const submitBtnEL = document.querySelector('.submit');
 const loadMoreBtnEl = document.querySelector('.load-more');
 const galleryEl = document.querySelector('.gallery');
 
-let page = Number(1);
+let page = 1;
 let searchQuery = "";
 
 if (galleryEl.innerHTML === "") {
@@ -30,23 +30,22 @@ async function onLoadMore(searchQuery) {
     searchQuery = inputEl.value.trim();
     page += 1;
     try {
-        const result = await fetchPhotos(searchQuery, page)
-        let photos = await addPhotos(result.data.hits)
-        galleryEl.insertAdjacentHTML("beforeend", photos)
+        const result = await fetchPhotos(searchQuery, page);
+        let photos = addPhotos(result.data.hits);
+        galleryEl.insertAdjacentHTML("beforeend", photos);
+
+        let photosRemnant = result.data.totalHits - 40 * page;
+        if (photosRemnant < 1) {
+            Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+            disableLoadMoreBtn();
+        }
     }
     catch (error) {
-        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-        disableLoadMoreBtn();
         console.log(error.message)
     }
 
-    const simplelightbox = new SimpleLightbox('.photo-card a', {
-        captiondDelay: 250,
-        captionsData: 'alt'
-    })
+    simpleLightboxConfig();
     simplelightbox.refresh();
-    console.log(`Page: ${page}`)
-
 
     const { height: cardHeight } = galleryEl
         .firstElementChild.getBoundingClientRect();
@@ -63,15 +62,12 @@ async function onSearch(e) {
         try {
             page = 1;
             const result = await fetchPhotos(searchQuery, page)
-            const photos = await addPhotos(result.data.hits)
+            const photos = addPhotos(result.data.hits)
             galleryEl.innerHTML = photos;
+
             disableLoadMoreBtn();
-            const simplelightbox = new SimpleLightbox('.photo-card a', {
-                captiondDelay: 250,
-                captionsData: 'alt'
-            })
-            console.log(result.data.hits.length)
-            console.log(`Page: ${page}`)
+            simpleLightboxConfig();
+
             if (result.data.hits.length === 0) {
                 disableLoadMoreBtn();
                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.")
@@ -117,4 +113,12 @@ function addPhotos(photos) {
 function disableLoadMoreBtn() {
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.classList.add("visually-hidden")
+}
+
+function simpleLightboxConfig() {
+    const simplelightbox = new SimpleLightbox('.photo-card a', {
+        captiondDelay: 250,
+        captionsData: 'alt'
+    })
+    console.log(`Page: ${page}`)
 }
