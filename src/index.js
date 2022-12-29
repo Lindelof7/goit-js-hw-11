@@ -43,8 +43,11 @@ async function onLoadMore(searchQuery) {
     catch (error) {
         console.log(error.message)
     }
-
-    simpleLightboxConfig();
+    const simplelightbox = new SimpleLightbox('.photo-card a', {
+        captiondDelay: 250,
+        captionsData: 'alt'
+    })
+    console.log(`Page: ${page}`)
     simplelightbox.refresh();
 
     const { height: cardHeight } = galleryEl
@@ -66,7 +69,11 @@ async function onSearch(e) {
             galleryEl.innerHTML = photos;
 
             disableLoadMoreBtn();
-            simpleLightboxConfig();
+            const simplelightbox = new SimpleLightbox('.photo-card a', {
+                captiondDelay: 250,
+                captionsData: 'alt'
+            })
+            console.log(`Page: ${page}`)
 
             if (result.data.hits.length === 0) {
                 disableLoadMoreBtn();
@@ -113,12 +120,4 @@ function addPhotos(photos) {
 function disableLoadMoreBtn() {
     loadMoreBtnEl.disabled = true;
     loadMoreBtnEl.classList.add("visually-hidden")
-}
-
-function simpleLightboxConfig() {
-    const simplelightbox = new SimpleLightbox('.photo-card a', {
-        captiondDelay: 250,
-        captionsData: 'alt'
-    })
-    console.log(`Page: ${page}`)
 }
